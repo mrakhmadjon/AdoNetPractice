@@ -96,7 +96,22 @@ namespace AdoNetPractice.Repositories
         }
 
 
+        public void Delete(int id)
+        {
 
+            NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
+            con.Open();
+            string delete = $"delete from person where id = {id}";
+
+            
+
+            NpgsqlCommand cmd = new NpgsqlCommand(delete, con);
+
+            int rows = cmd.ExecuteNonQuery();
+            Console.WriteLine(rows > 0 ? "O'chirildi":"Bunday Id dagi inson Yo'q");
+            con.Close();
+
+        }
 
 
 

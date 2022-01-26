@@ -25,8 +25,12 @@ namespace AdoNetPractice
            //personrepo.Create(person);
 
 
+            //personrepo.Read(4);
 
-            personrepo.Read(4);
+
+
+
+
 
         }
     }
