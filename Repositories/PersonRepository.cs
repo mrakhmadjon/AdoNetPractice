@@ -45,6 +45,7 @@ namespace AdoNetPractice.Repositories
             {
                 Console.WriteLine("Tableda Malumot yo'q");
             }
+            con.Close();
         }
 
 
@@ -54,11 +55,14 @@ namespace AdoNetPractice.Repositories
         {
             NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
             con.Open();
-            string query = "select * from person";
+
+            string query = $"insert into person(firstname , lastname, age,email,password,phone_number)" +
+                $"values('{person.FirstName}', '{person.LastName}',{person.Age},'{person.Email}','{person.Password}', '{person.Phone_number}')";
+            
             NpgsqlCommand cmd = new NpgsqlCommand(query, con);
 
-
-            NpgsqlDataReader reader = cmd.ExecuteReader();
+            cmd.ExecuteNonQuery();
+            con.Close();
         }
 
 

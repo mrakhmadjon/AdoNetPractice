@@ -1,4 +1,5 @@
-﻿using AdoNetPractice.Repositories;
+﻿using AdoNetPractice.Model;
+using AdoNetPractice.Repositories;
 using System;
 
 namespace AdoNetPractice
@@ -7,8 +8,9 @@ namespace AdoNetPractice
     {
         static void Main(string[] args)
         {
-            PersonRepository personrepo = new PersonRepository();
-            personrepo.GetAll();
+            
+
+
         }
     }
 }
