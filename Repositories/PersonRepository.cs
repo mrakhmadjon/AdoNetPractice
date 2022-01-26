@@ -66,7 +66,34 @@ namespace AdoNetPractice.Repositories
         }
 
 
+        public void Read(int id)
+        {
+            NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
+            con.Open();
+            string query = "select * from person";
+            NpgsqlCommand cmd = new NpgsqlCommand(query, con);
 
+
+            NpgsqlDataReader reader = cmd.ExecuteReader();
+            bool isExist = false;
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    if(reader.GetInt32(0) == id)
+                    {
+                        Console.WriteLine($"Id : {reader[0]} FirstName : {reader[1]} Lastname : {reader[2]} Age : {reader[3]} Email : {reader[4]} Password : {reader[5]} PhoneNumber : {reader[6]}");
+                        isExist = true;
+                    }
+                }
+                if (!isExist)
+                    Console.WriteLine("Bunday Id dagi inson yo'q");
+            }
+            else
+            {
+                Console.WriteLine("Tableda Malumot yo'q");
+            }
+        }
 
 
 
