@@ -113,7 +113,25 @@ namespace AdoNetPractice.Repositories
 
         }
 
+        public void Update(int id, Person person)
+        {
 
+            NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
+            con.Open();
+
+            string updateQuery = $"update  person set firstname = '{person.FirstName}',lastname = '{person.LastName}',age = '{person.Age}', email = '{person.Email}',password = '{person.Password}',phone_number = '{person.Phone_number}' where id = {id}";
+
+
+
+
+            NpgsqlCommand cmd = new NpgsqlCommand(updateQuery, con);
+
+            int rows = cmd.ExecuteNonQuery();
+            Console.WriteLine(rows > 0 ? "Yangilandi" : "Bunday Id dagi inson Yo'q");
+            con.Close();
+
+
+        }
 
 
 

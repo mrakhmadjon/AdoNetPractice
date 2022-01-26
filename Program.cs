@@ -12,17 +12,17 @@ namespace AdoNetPractice
             PersonRepository personrepo = new PersonRepository();
             //personrepo.GetAll();
 
-           // Person person = new Person()
-           // {
-           //     FirstName = "Akmal",
-           //     LastName = "Kadirov",
-           //     Age = 30,
-           //     Email = "akmalkadirov@gmail.com",
-           //     Password = "20021001",
-           //     Phone_number = "+998912021331"
-           // };
+            //Person person = new Person()
+            //{
+            //    FirstName = "Akmal",
+            //    LastName = "Kadirov",
+            //    Age = 30,
+            //    Email = "akmalkadirov@gmail.com",
+            //    Password = "20021001",
+            //    Phone_number = "+998912021331"
+            //};   
 
-           //personrepo.Create(person);
+            //personrepo.Create(person);
 
 
             //personrepo.Read(4);
@@ -30,7 +30,7 @@ namespace AdoNetPractice
 
 
 
-
+            //personrepo.Delete(3);
 
         }
     }
