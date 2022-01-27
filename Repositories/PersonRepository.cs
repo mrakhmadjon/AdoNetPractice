@@ -10,11 +10,11 @@ namespace AdoNetPractice.Repositories
 {
     internal class PersonRepository
     {
-        public  void GetAll()
+        public List<Person> GetAll(int lim,int offse)
         {
             NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
             con.Open();
-            string query = "select * from person";
+            string query = $"select * from person limit {lim} offset {offse}";
             NpgsqlCommand cmd = new NpgsqlCommand(query, con);
 
 
@@ -22,30 +22,25 @@ namespace AdoNetPractice.Repositories
 
             IList<Person> person =  new List<Person>();
             int i = 0; 
-            if (reader.HasRows)
-            {
+           
                 while (reader.Read())
                 {
                    person.Add(new Person()
                    {
                        Id = reader.GetInt32(0),
-                       FirstName = reader.GetString(1),
-                       LastName = reader.GetString(2),
+                       FirstName = reader.GetString(1).ToString(),
+                       LastName = reader.GetString(2).ToString(),
                        Age = reader.GetInt32(3),
-                       Email = reader.GetString(4),
-                       Password = reader.GetString(5),
-                       Phone_number = reader.GetString(6)
+                       Email = reader.GetString(4).ToString(),
+                       Password = reader.GetString(5).ToString(),
+                       Phone_number = reader.GetString(6).ToString()
 
                    });
-                    Console.WriteLine($"Id : {person[i].Id} FirstName : {person[i].FirstName} Lastname : {person[i].LastName} Age : {person[i].Age} Email : {person[i].Email} Password : {person[i].Password} PhoneNumber : {person[i].Phone_number}");
                     i++;
                 }
-            }
-            else
-            {
-                Console.WriteLine("Tableda Malumot yo'q");
-            }
             con.Close();
+            return (List<Person>)person;
+            
         }
 
 
@@ -53,20 +48,30 @@ namespace AdoNetPractice.Repositories
 
         public void Create (Person person)
         {
-            NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
-            con.Open();
+            try
+            {
+                NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
+                con.Open();
 
-            string query = $"insert into person(firstname , lastname, age,email,password,phone_number)" +
-                $"values('{person.FirstName}', '{person.LastName}',{person.Age},'{person.Email}','{person.Password}', '{person.Phone_number}')";
-            
-            NpgsqlCommand cmd = new NpgsqlCommand(query, con);
+                string query = $"insert into person(firstname , lastname, age,email,password,phone_number)" +
+                    $"values('{person.FirstName}', '{person.LastName}',{person.Age},'{person.Email}','{person.Password}', '{person.Phone_number}')";
 
-            cmd.ExecuteNonQuery();
-            con.Close();
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
+
+                int created = cmd.ExecuteNonQuery();
+                if (created == 1)
+                    Console.WriteLine("Qo'shildi...");
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message); 
+            }
         }
 
 
-        public void Read(int id)
+        public Person Read(int id)
         {
             NpgsqlConnection con = new NpgsqlConnection(Constants.CONNECTION_STRING);
             con.Open();
@@ -75,24 +80,26 @@ namespace AdoNetPractice.Repositories
 
 
             NpgsqlDataReader reader = cmd.ExecuteReader();
-            bool isExist = false;
-            if (reader.HasRows)
-            {
+           
+            
                 while (reader.Read())
                 {
                     if(reader.GetInt32(0) == id)
                     {
-                        Console.WriteLine($"Id : {reader[0]} FirstName : {reader[1]} Lastname : {reader[2]} Age : {reader[3]} Email : {reader[4]} Password : {reader[5]} PhoneNumber : {reader[6]}");
-                        isExist = true;
+                        return new Person()
+                        {
+                            Id = reader.GetInt32(0),
+                            FirstName = reader.GetString(1),
+                            LastName = reader.GetString(2),
+                            Age = reader.GetInt32(3),
+                            Email = reader.GetString(4),
+                            Password = reader.GetString(5),
+                            Phone_number = reader.GetString(6)
+                        };
+                        
                     }
                 }
-                if (!isExist)
-                    Console.WriteLine("Bunday Id dagi inson yo'q");
-            }
-            else
-            {
-                Console.WriteLine("Tableda Malumot yo'q");
-            }
+            throw new Exception("Bunday user yo'q");
         }
 
 
@@ -120,9 +127,6 @@ namespace AdoNetPractice.Repositories
             con.Open();
 
             string updateQuery = $"update  person set firstname = '{person.FirstName}',lastname = '{person.LastName}',age = '{person.Age}', email = '{person.Email}',password = '{person.Password}',phone_number = '{person.Phone_number}' where id = {person.Id}";
-
-
-
 
             NpgsqlCommand cmd = new NpgsqlCommand(updateQuery, con);
 
