@@ -22,11 +22,22 @@ namespace AdoNetPractice
 
             if (option == "1")
             {
+                Console.WriteLine("Firstname : ");
                 string firstname = Console.ReadLine();
+
+                Console.WriteLine("Lastname : ");
                 string lastname = Console.ReadLine();
+
+                Console.WriteLine("Age : ");
                 int age = int.Parse( Console.ReadLine());
+
+                Console.WriteLine("Email : ");
                 string email = Console.ReadLine();
+
+                Console.WriteLine("Password : ");
                 string password = Console.ReadLine();
+
+                Console.WriteLine("Phone_Number : ");
                 string phonenum = Console.ReadLine();
 
                 personrepo.Create(new Person()
@@ -42,12 +53,25 @@ namespace AdoNetPractice
             
             else if (option == "2")
             {
+                Console.WriteLine("Yangilamoqchi bo'lgan odamni Id sini Kiriting");
                 int id = int.Parse( Console.ReadLine());
+
+                Console.WriteLine("Firstname : ");
                 string firstname = Console.ReadLine();
+
+                Console.WriteLine("Lastname : ");
                 string lastname = Console.ReadLine();
+
+                Console.WriteLine("Age : ");
                 int age = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Email : ");
                 string email = Console.ReadLine();
+
+                Console.WriteLine("Password : ");
                 string password = Console.ReadLine();
+
+                Console.WriteLine("Phone_Number : ");
                 string phonenum = Console.ReadLine();
 
                 personrepo.Update(new Person()
@@ -67,7 +91,8 @@ namespace AdoNetPractice
                 Console.WriteLine("Id ni kiriting");
                 int id = int.Parse( Console.ReadLine());
                 Person person = personrepo.Read(id);
-            }
+                Console.WriteLine(person.Id + ' ' + person.FirstName + ' ' + person.LastName + ' ' + person.Age);
+            } 
             else if (option == "4")
             {
                 Console.Write("Take : ");
@@ -87,7 +112,7 @@ namespace AdoNetPractice
                 int idDelte = int.Parse( Console.ReadLine());
                 personrepo.Delete(idDelte);
             }
-
+            
         }
     }
 }
